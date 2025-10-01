@@ -175,6 +175,19 @@ export default function RootLayout({
           }}
         />
         
+        {/* Google Analytics */}
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-ML90Q7LWV1"></script>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-ML90Q7LWV1');
+            `,
+          }}
+        />
+        
         {/* Additional SEO Meta Tags */}
         <meta name="geo.region" content="IN" />
         <meta name="geo.placename" content="India" />
