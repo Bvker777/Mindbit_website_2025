@@ -10,10 +10,10 @@ const poppins = Poppins({
 
 export const metadata: Metadata = {
   title: {
-    default: "MindBit Solutions - Software Development Company",
+    default: "MindBit Solutions - Software Development Agency",
     template: "%s | MindBit Solutions"
   },
-  description: "Professional software development company specializing in custom websites, mobile apps, AI integration, and UI/UX design. We build digital solutions that actually make sense for your business.",
+  description: "Professional software development agency specializing in custom websites, mobile apps, AI integration, and UI/UX design. We build digital solutions that actually make sense for your business.",
   keywords: [
     "software development",
     "web development", 
