@@ -7,6 +7,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import TeamSection from "@/components/TeamSection";
 import CTASection from "@/components/CTA";
 import { Footer } from "@/components/Footer";
+import { Analytics } from "@vercel/analytics/next"
 
 export default function Home() {
   return (
@@ -22,6 +23,7 @@ export default function Home() {
         <CTASection />
       </main>
       <Footer />
+      <Analytics />
     </div>
   );
 }
