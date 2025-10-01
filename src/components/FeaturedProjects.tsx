@@ -136,7 +136,11 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         transition: { duration: 0.3 },
       }}
     >
-      <div className="aspect-square rounded-2xl sm:rounded-3xl lg:rounded-4xl mb-4 overflow-hidden relative">
+      <motion.div 
+        className="aspect-square rounded-2xl sm:rounded-3xl lg:rounded-4xl mb-4 overflow-hidden relative"
+        whileHover={{ scale: 0.95 }}
+        transition={{ duration: 0.3 }}
+      >
         <Image
           src={project.images[currentImageIndex]}
           alt={`${project.title} project screenshot ${currentImageIndex + 1} of ${project.images.length}`}
@@ -157,7 +161,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
             ))}
           </div>
         )}
-      </div>
+      </motion.div>
       <h3 className="text-[1.5em] sm:text-[1.7em] font-normal text-white mb-2">
         {project.title}
       </h3>
@@ -178,29 +182,27 @@ export default function FeaturedProjects() {
       description:
         "Mobile application for bike rental service with integrated payment system and real-time tracking capabilities.",
       images: [
-        "/khasiBible.png",
-        "/KhasiBibleAppDarkMode.png",
-        "/KhasiBibleAppDarkMode2.png",
-        "/khasiBibleHighlights.png",
+        "/images/projects/khasiBible.png",
+        "/images/projects/khasiBibleHighlights.png",
       ], // Multiple images
     },
     {
       title: "Shi Kyntien Educational Game",
       description:
         "An immersive mobile game teaching the Khasi language through fun challenges and interactive quizzes. Designed to boost cultural pride and language skills among kids with colorful graphics and reward-based progression.",
-      images: ["/birdOrigami.png"], // Multiple images
+      images: ["/images/ui/birdOrigami.png"], // Multiple images
     },
     {
       title: "7 Sisters Cookbook App & Website",
       description:
         "A recipe app celebrating Northeast India's culinary heritage. Includes step-by-step cooking guides, instructional videos, and regional ingredient glossaries—perfect for food lovers and home chefs.",
-      images: ["/7sistersKitchenWhite.png", "/7sistersKitchenLaptop.png"], // Multiple images
+      images: ["/images/projects/7sistersKitchenWhite.png", "/images/projects/7sistersKitchenLaptop.png"], // Multiple images
     },
     {
       title: "Admission Portal ",
       description:
         "A streamlined web portal for Union Christian College admissions. Simplifies application submissions, status tracking, and document uploads, reducing wait times and administrative overhead.",
-      images: ["/uccAdmin.png", "/uccHome.png"], // Multiple images
+      images: ["/images/projects/uccAdmin.png", "/images/projects/uccHome.png"], // Multiple images
     },
   ];
 

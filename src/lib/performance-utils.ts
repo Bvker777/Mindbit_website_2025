@@ -1,11 +1,18 @@
 // Performance utilities for animation optimization
+
+// Interface for navigator with deviceMemory (experimental API)
+interface NavigatorWithDeviceMemory extends Navigator {
+  deviceMemory?: number;
+}
+
 export const getDevicePerformance = () => {
   if (typeof window === 'undefined') return 'high';
   
   // Check for low-end device indicators
+  const nav = navigator as NavigatorWithDeviceMemory;
   const isLowEnd = 
     navigator.hardwareConcurrency <= 2 || // Low CPU cores
-    navigator.deviceMemory <= 4 || // Low RAM (if available)
+    (nav.deviceMemory && nav.deviceMemory <= 4) || // Low RAM (if available)
     /Android.*Chrome\/[.0-9]* (?!.*Mobile)/i.test(navigator.userAgent) || // Android tablets
     /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Mobile devices
   
@@ -59,12 +66,12 @@ export const createOptimizedObserver = (
 };
 
 // Throttle function for scroll events
-export const throttle = <T extends (...args: any[]) => any>(
+export const throttle = <T extends (...args: unknown[]) => unknown>(
   func: T,
   limit: number
 ): T => {
   let inThrottle: boolean;
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     if (!inThrottle) {
       func.apply(this, args);
       inThrottle = true;
@@ -74,12 +81,12 @@ export const throttle = <T extends (...args: any[]) => any>(
 };
 
 // Debounce function for resize events
-export const debounce = <T extends (...args: any[]) => any>(
+export const debounce = <T extends (...args: unknown[]) => unknown>(
   func: T,
   delay: number
 ): T => {
   let timeoutId: NodeJS.Timeout;
-  return ((...args: any[]) => {
+  return ((...args: unknown[]) => {
     clearTimeout(timeoutId);
     timeoutId = setTimeout(() => func.apply(this, args), delay);
   }) as T;

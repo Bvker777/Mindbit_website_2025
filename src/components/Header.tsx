@@ -88,7 +88,7 @@ export default function Header() {
           <motion.div className="flex items-center" variants={logoVariants}>
             <Link href="/" className="flex items-center -mt-2">
               <Image
-                src="/minbit_logo.svg"
+                src="/logos/minbit_logo.svg"
                 alt="MindBit Logo"
                 width={120}
                 height={40}

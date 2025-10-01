@@ -1,5 +1,4 @@
 import { useRef, useEffect, useState } from 'react';
-import { useInView } from 'framer-motion';
 import { 
   getOptimizedAnimationConfig, 
   shouldReduceAnimations,
@@ -27,7 +26,7 @@ export const useOptimizedScrollAnimation = (options = {}) => {
         }
       },
       { 
-        margin: "-50px",
+        rootMargin: "-50px",
         threshold: 0.1,
         ...options 
       }
@@ -55,7 +54,7 @@ export const useOptimizedParallax = (velocity = 0.5, elementRef?: React.RefObjec
     const updateOffset = throttle(() => {
       if (!ticking && elementRef.current && isVisible) {
         const rect = elementRef.current.getBoundingClientRect();
-        const scrolled = window.scrollY;
+        // const scrolled = window.scrollY;
         const windowHeight = window.innerHeight;
         
         // Only calculate if element is in viewport

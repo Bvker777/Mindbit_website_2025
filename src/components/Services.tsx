@@ -79,7 +79,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       <motion.div 
         className="aspect-square rounded-2xl sm:rounded-3xl lg:rounded-4xl mb-4 overflow-hidden"
         whileHover={{ 
-          scale: 1.05,
+          scale: .95,
           rotateY: 5,
           transition: { duration: 0.3 }
         }}
@@ -121,17 +121,17 @@ export default function Services() {
     {
       title: "Custom Websites & Apps + AI Integration",
       description: "Digital products tailored to your brand. We build sleek, responsive websites and mobile apps that delight users and drive results.",
-      image: "/webAppService.png" // Replace with your actual service image
+      image: "/images/projects/webAppService.png" // Replace with your actual service image
     },
     {
       title: "Interactive Gamified Experiences",
       description: "Turn learning and onboarding into engaging adventures. From quizzes to full-blown mini-games, we keep users hooked and coming back for more.",
-      image: "/birdOrigami.png" // Replace with your actual service image
+      image: "/images/ui/birdOrigami.png" // Replace with your actual service image
     },
     {
       title: "UI/UX Design",
       description: "Interfaces that look stunning and feel intuitive. We blend emotional design principles with local cultural insights for maximum impact.",
-      image: "/uiux1.png" // Replace with your actual service image
+      image: "/images/services/uiux1.png" // Replace with your actual service image
     }
   ];
 

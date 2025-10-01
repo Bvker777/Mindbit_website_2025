@@ -1,7 +1,7 @@
 "use client";
 
 import Image from 'next/image';
-import { motion, useInView, Variants, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
 
 interface TeamMember {
@@ -14,13 +14,6 @@ interface TeamMember {
 function TeamMemberCard({ member, index }: { member: TeamMember; index: number }) {
   const [isCardInView, setIsCardInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollY } = useScroll();
-  const prefersReduced = useReducedMotion();
-  
-  // Different parallax velocities for each team member
-  const velocities = [0.12, -0.08, 0.15];
-  const velocity = velocities[index] || 0.1;
-  const parallaxY = useTransform(scrollY, [0, 1000], [0, prefersReduced ? 0 : velocity * 80]);
 
   // Intersection Observer for scroll animation
   useEffect(() => {
@@ -72,15 +65,14 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
       variants={memberCardVariants}
       initial="hidden"
       animate={isCardInView ? "visible" : "hidden"}
-      style={{ y: parallaxY }}
       whileHover={{ 
-        y: -10,
+        // y: -10,
         transition: { duration: 0.3 }
       }}
     >
       <motion.div 
         className="w-full max-w-xs mx-auto mb-4 overflow-hidden rounded-2xl sm:rounded-3xl lg:rounded-4xl"
-        whileHover={{ scale: 1.05 }}
+        whileHover={{ scale: .95 }}
         transition={{ duration: 0.3 }}
       >
         <Image
@@ -100,14 +92,16 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
       >
         {member.name}
       </motion.h3>
-      <motion.p 
-        className="text-gray-600 text-xl mb-2 font-medium"
+      <motion.div 
+        className="mb-2"
         initial={{ opacity: 0, y: 20 }}
         animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ delay: 0.3, duration: 0.6 }}
       >
-        {member.role}
-      </motion.p>
+        <span className="inline-block  text-gray-700 border border-gray-300 px-3 py-1 text-sm font-medium rounded-lg">
+          Co founder
+        </span>
+      </motion.div>
       <motion.p 
         className="text-gray-600 text-sm sm:text-base leading-relaxed px-2"
         initial={{ opacity: 0, y: 20 }}
@@ -123,30 +117,25 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
 export default function Team() {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
-  const { scrollY } = useScroll();
-  const prefersReduced = useReducedMotion();
-  
-  // Subtle parallax for the title
-  const titleYTransform = useTransform(scrollY, [0, 1000], [0, prefersReduced ? 0 : -20]);
 
   const teamMembers = [
     {
       name: "Lambert Shadap",
       role: "Co-Founder",
       description: "25+ years in IT consultancy across banking, gaming, and consumer tech.",
-      image: "/Lambert.png" // Replace with actual team member photo
+      image: "/images/team/Lambert.png" // Replace with actual team member photo
     },
     {
       name: "Ynaiborlang Nongkynrih",
       role: "Co-Founder",
       description: "7+ years building web and mobile solutions; AI Engineer; Interactive Media Expert ",
-      image: "/Aibor.png" // Replace with actual team member photo
+      image: "/images/team/Aibor.png" // Replace with actual team member photo
     },
     {
       name: "Bakerlang L Nonglait",
       role: "Co-Founder",
       description: "5+ years as a creative web developer and design engineer, specializing in user-centered UI/UX and emotional design experiences",
-      image: "/Baker.png" // Replace with actual team member photo
+      image: "/images/team/Baker.png" // Replace with actual team member photo
     }
   ];
 
@@ -184,7 +173,6 @@ export default function Team() {
           variants={titleVariants}
           initial="hidden"
           animate={isInView ? "visible" : "hidden"}
-          style={{ y: titleYTransform }}
         >
           Meet the Team
         </motion.h2>

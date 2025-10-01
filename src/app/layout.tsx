@@ -114,7 +114,7 @@ export default function RootLayout({
               "@type": "Organization",
               "name": "MindBit Solutions",
               "url": "https://mindbitsolution.com",
-              "logo": "https://mindbitsolution.com/minbit_logo.svg",
+              "logo": "https://mindbitsolution.com/logos/minbit_logo.svg",
               "description": "Professional software development company specializing in custom websites, mobile apps, AI integration, and UI/UX design.",
               "foundingDate": "2025",
               "founders": [
@@ -182,6 +182,11 @@ export default function RootLayout({
         <meta name="revisit-after" content="7 days" />
         <meta name="distribution" content="global" />
         <meta name="rating" content="general" />
+        
+        {/* Favicon */}
+        <link rel="icon" href="/icons/favicon.svg" type="image/svg+xml" />
+        <link rel="icon" href="/icons/favicon.ico" sizes="any" />
+        <link rel="apple-touch-icon" href="/icons/apple-touch-icon.png" />
         
         {/* Preconnect to external domains for performance */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
