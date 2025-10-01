@@ -1,0 +1,50 @@
+"use client";
+
+import { DottedSurface } from "@/components/ui/dotted-surface";
+import Link from "next/link";
+import { motion } from "framer-motion";
+import {
+  useScrollAnimation,
+  STANDARD_VARIANTS,
+  getMotionConfig,
+} from "@/lib/use-scroll-animation";
+
+export default function CTA() {
+  const { ref, isInView } = useScrollAnimation();
+
+  return (
+    <section
+      id="contact"
+      className="h-screen relative flex justify-center items-center py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black overflow-hidden"
+      ref={ref}
+    >
+      <DottedSurface />
+      <motion.div
+        className="relative z-10 text-center"
+        variants={STANDARD_VARIANTS.container}
+        {...getMotionConfig()}
+        animate={isInView ? "visible" : "hidden"}
+      >
+        <motion.h3
+          className="mt-4 sm:mt-6 pb-1 text-4xl sm:text-6xl md:text-7xl lg:text-8xl leading-tight font-medium"
+          variants={STANDARD_VARIANTS.slideUp}
+        >
+          Have an idea?
+        </motion.h3>
+        <motion.p
+          className="mb-4 sm:mb-6 text-white text-sm sm:text-base"
+          variants={STANDARD_VARIANTS.slideUp}
+        >
+          Feel free to reach out to us!
+        </motion.p>
+        <motion.div variants={STANDARD_VARIANTS.scaleIn}>
+          <Link href="mailto:info@mindbitsolution.com" target="_blank">
+            <button className="cursor-pointer border-1 bg-teal-400 text-slate-800 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-all text-2xl sm:text-md btn-3d-lift btn-liquid btn-magnetic">
+              Let&apos;s Talk
+            </button>
+          </Link>
+        </motion.div>
+      </motion.div>
+    </section>
+  );
+}
