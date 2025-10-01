@@ -90,6 +90,7 @@ export function generateViewport() {
     initialScale: 1,
     maximumScale: 5,
     userScalable: true,
+    viewportFit: 'cover', // Important for Safari mobile safe area
     themeColor: [
       { media: '(prefers-color-scheme: light)', color: '#ffffff' },
       { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' }

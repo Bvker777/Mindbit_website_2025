@@ -1,5 +1,7 @@
 // Performance utilities for animation optimization
 
+import { getSafariPerformanceConfig, isSafari } from './safari-utils';
+
 // Interface for navigator with deviceMemory (experimental API)
 interface NavigatorWithDeviceMemory extends Navigator {
   deviceMemory?: number;
@@ -16,6 +18,14 @@ export const getDevicePerformance = () => {
     /Android.*Chrome\/[.0-9]* (?!.*Mobile)/i.test(navigator.userAgent) || // Android tablets
     /iPhone|iPad|iPod|Android/i.test(navigator.userAgent); // Mobile devices
   
+  // Safari-specific performance considerations
+  if (isSafari()) {
+    const safariConfig = getSafariPerformanceConfig();
+    if (safariConfig.reduceAnimations || safariConfig.isMobile) {
+      return 'low';
+    }
+  }
+  
   return isLowEnd ? 'low' : 'high';
 };
 
@@ -28,11 +38,32 @@ export const shouldReduceAnimations = () => {
   // Check device performance
   const devicePerformance = getDevicePerformance();
   
+  // Safari-specific animation reduction
+  if (isSafari()) {
+    const safariConfig = getSafariPerformanceConfig();
+    if (safariConfig.reduceAnimations) {
+      return true;
+    }
+  }
+  
   return prefersReducedMotion || devicePerformance === 'low';
 };
 
 export const getOptimizedAnimationConfig = () => {
   const shouldReduce = shouldReduceAnimations();
+  
+  // Safari-specific animation configuration
+  if (isSafari()) {
+    const safariConfig = getSafariPerformanceConfig();
+    return {
+      duration: safariConfig.reduceAnimations ? 0.3 : 0.8,
+      ease: safariConfig.reduceAnimations ? 'easeOut' : [0.25, 0.46, 0.45, 0.94],
+      staggerChildren: safariConfig.reduceAnimations ? 0.05 : 0.15,
+      delayChildren: safariConfig.reduceAnimations ? 0.02 : 0.1,
+      useWebkitPrefixes: safariConfig.useWebkitPrefixes,
+      enableGPUAcceleration: safariConfig.enableGPUAcceleration
+    };
+  }
   
   if (shouldReduce) {
     return {
@@ -56,11 +87,23 @@ export const createOptimizedObserver = (
   callback: IntersectionObserverCallback,
   options: IntersectionObserverInit = {}
 ) => {
-  const defaultOptions: IntersectionObserverInit = {
+  // Safari-specific observer options
+  let defaultOptions: IntersectionObserverInit = {
     rootMargin: '-50px',
     threshold: 0.1,
     ...options
   };
+  
+  if (isSafari()) {
+    const safariConfig = getSafariPerformanceConfig();
+    if (safariConfig.optimizeScrollPerformance) {
+      defaultOptions = {
+        rootMargin: '-50px',
+        threshold: 0.1,
+        ...options
+      };
+    }
+  }
   
   return new IntersectionObserver(callback, defaultOptions);
 };

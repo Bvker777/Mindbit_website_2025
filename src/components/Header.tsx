@@ -5,6 +5,7 @@ import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
 import { motion } from "framer-motion";
+import { getSafariOptimizedClasses, isSafari } from "@/lib/safari-utils";
 
 export default function Header() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -74,9 +75,12 @@ export default function Header() {
     setIsMenuOpen(false); // Close mobile menu after clicking
   };
 
+  // Get Safari-specific optimized classes
+  const safariClasses = isSafari() ? getSafariOptimizedClasses().join(' ') : '';
+
   return (
     <motion.header 
-      className={`sticky top-0 w-full z-[9999] bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm transition-transform duration-300 ease-in-out ${
+      className={`sticky top-0 w-full z-[9999] bg-white/95 backdrop-blur-md border-b border-gray-200 shadow-sm transition-transform duration-300 ease-in-out ${safariClasses} ${
         isVisible ? 'translate-y-0' : '-translate-y-full'
       }`}
       initial="hidden"

@@ -74,7 +74,9 @@ body {
   -webkit-overflow-scrolling: touch;
   /* Optimize rendering for animations */
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 /* Smooth scroll for reduced motion users */
@@ -96,8 +98,11 @@ body {
 .animate-optimized {
   will-change: transform, opacity;
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 /* Remove will-change after animations complete */
@@ -108,18 +113,23 @@ body {
 /* GPU acceleration for smooth animations */
 .gpu-accelerated {
   transform: translateZ(0);
+  -webkit-transform: translateZ(0);
   backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
   perspective: 1000px;
+  -webkit-perspective: 1000px;
 }
 
 /* Optimized hover states */
 .hover-optimized {
   transition: transform 0.2s ease-out, opacity 0.2s ease-out;
+  -webkit-transition: -webkit-transform 0.2s ease-out, opacity 0.2s ease-out;
   will-change: transform, opacity;
 }
 
 .hover-optimized:hover {
   transform: translateY(-2px);
+  -webkit-transform: translateY(-2px);
   opacity: 0.9;
 }
 
@@ -138,24 +148,45 @@ body {
 @keyframes shimmer {
   0% {
     transform: translateX(-100%);
+    -webkit-transform: translateX(-100%);
   }
   100% {
     transform: translateX(100%);
+    -webkit-transform: translateX(100%);
   }
 }
 
 .animate-shimmer {
   animation: shimmer 2s ease-in-out infinite;
+  -webkit-animation: shimmer 2s ease-in-out infinite;
+}
+
+/* Safari-specific animation fallbacks */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-md {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+}
+
+/* Safari-specific transform fixes */
+@supports (-webkit-transform: translateZ(0)) {
+  .safari-optimized {
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+  }
 }
 
 /* Creative Button Hover Animations */
 @keyframes buttonPulse {
   0%, 100% {
     transform: scale(1);
+    -webkit-transform: scale(1);
     box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.4);
   }
   50% {
     transform: scale(1.05);
+    -webkit-transform: scale(1.05);
     box-shadow: 0 0 0 10px rgba(45, 212, 191, 0);
   }
 }
@@ -173,43 +204,85 @@ body {
 }
 
 @keyframes buttonShake {
-  0%, 100% { transform: translateX(0); }
-  10%, 30%, 50%, 70%, 90% { transform: translateX(-2px); }
-  20%, 40%, 60%, 80% { transform: translateX(2px); }
+  0%, 100% { 
+    transform: translateX(0); 
+    -webkit-transform: translateX(0); 
+  }
+  10%, 30%, 50%, 70%, 90% { 
+    transform: translateX(-2px); 
+    -webkit-transform: translateX(-2px); 
+  }
+  20%, 40%, 60%, 80% { 
+    transform: translateX(2px); 
+    -webkit-transform: translateX(2px); 
+  }
 }
 
 @keyframes buttonBounce {
   0%, 20%, 50%, 80%, 100% {
     transform: translateY(0);
+    -webkit-transform: translateY(0);
   }
   40% {
     transform: translateY(-8px);
+    -webkit-transform: translateY(-8px);
   }
   60% {
     transform: translateY(-4px);
+    -webkit-transform: translateY(-4px);
   }
 }
 
 @keyframes buttonWiggle {
-  0%, 100% { transform: rotate(0deg); }
-  25% { transform: rotate(3deg); }
-  75% { transform: rotate(-3deg); }
+  0%, 100% { 
+    transform: rotate(0deg); 
+    -webkit-transform: rotate(0deg); 
+  }
+  25% { 
+    transform: rotate(3deg); 
+    -webkit-transform: rotate(3deg); 
+  }
+  75% { 
+    transform: rotate(-3deg); 
+    -webkit-transform: rotate(-3deg); 
+  }
 }
 
 @keyframes buttonSlide {
-  0% { transform: translateX(0); }
-  50% { transform: translateX(4px); }
-  100% { transform: translateX(0); }
+  0% { 
+    transform: translateX(0); 
+    -webkit-transform: translateX(0); 
+  }
+  50% { 
+    transform: translateX(4px); 
+    -webkit-transform: translateX(4px); 
+  }
+  100% { 
+    transform: translateX(0); 
+    -webkit-transform: translateX(0); 
+  }
 }
 
 @keyframes buttonFloat {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+  0%, 100% { 
+    transform: translateY(0px); 
+    -webkit-transform: translateY(0px); 
+  }
+  50% { 
+    transform: translateY(-6px); 
+    -webkit-transform: translateY(-6px); 
+  }
 }
 
 @keyframes buttonRotate {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% { 
+    transform: rotate(0deg); 
+    -webkit-transform: rotate(0deg); 
+  }
+  100% { 
+    transform: rotate(360deg); 
+    -webkit-transform: rotate(360deg); 
+  }
 }
 
 @keyframes buttonMorph {
@@ -284,11 +357,14 @@ body {
 /* Advanced Hover Effects */
 .btn-3d-lift {
   transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  -webkit-transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   transform-style: preserve-3d;
+  -webkit-transform-style: preserve-3d;
 }
 
 .btn-3d-lift:hover {
   transform: translateY(-4px) rotateX(10deg);
+  -webkit-transform: translateY(-4px) rotateX(10deg);
   box-shadow: 0 10px 25px rgba(45, 212, 191, 0.3);
 }
 
@@ -296,6 +372,7 @@ body {
   position: relative;
   overflow: hidden;
   transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
 }
 
 .btn-liquid::before {
@@ -307,6 +384,7 @@ body {
   height: 100%;
   background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
   transition: left 0.5s;
+  -webkit-transition: left 0.5s;
 }
 
 .btn-liquid:hover::before {
@@ -315,10 +393,12 @@ body {
 
 .btn-magnetic {
   transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+  -webkit-transition: all 0.3s cubic-bezier(0.23, 1, 0.32, 1);
 }
 
 .btn-magnetic:hover {
   transform: scale(1.1) rotate(2deg);
+  -webkit-transform: scale(1.1) rotate(2deg);
   box-shadow: 0 8px 25px rgba(45, 212, 191, 0.4);
 }
 
@@ -337,7 +417,9 @@ body {
   border-radius: 50%;
   background: rgba(255, 255, 255, 0.3);
   transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
   transition: width 0.6s, height 0.6s;
+  -webkit-transition: width 0.6s, height 0.6s;
 }
 
 .btn-ripple:hover::after {
@@ -347,6 +429,7 @@ body {
 
 .btn-neon {
   transition: all 0.3s ease;
+  -webkit-transition: all 0.3s ease;
   box-shadow: 0 0 5px rgba(45, 212, 191, 0.5);
 }
 
@@ -384,5 +467,124 @@ body {
   
   ::-webkit-scrollbar-thumb:hover {
     background: #64748b;
+  }
+}
+
+/* Safari-specific animation fallbacks and optimizations */
+@supports not (backdrop-filter: blur(10px)) {
+  .backdrop-blur-md {
+    background-color: rgba(255, 255, 255, 0.8);
+  }
+  
+  .backdrop-blur-sm {
+    background-color: rgba(255, 255, 255, 0.9);
+  }
+}
+
+/* Safari-specific transform optimizations */
+@supports (-webkit-transform: translateZ(0)) {
+  .safari-optimized {
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+  }
+  
+  .safari-gpu-accelerated {
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+    will-change: transform, opacity;
+  }
+}
+
+/* Safari-specific animation performance fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .safari-animation-fix {
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+  }
+  
+  /* Fix for Safari animation jank */
+  .safari-smooth {
+    -webkit-transform: translate3d(0, 0, 0);
+    -webkit-backface-visibility: hidden;
+    -webkit-perspective: 1000px;
+  }
+}
+
+/* Safari-specific text rendering optimizations */
+.safari-text-optimized {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Safari-specific scroll optimizations */
+.safari-scroll-optimized {
+  -webkit-overflow-scrolling: touch;
+  -webkit-transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+}
+
+/* Safari-specific button hover fixes */
+@media screen and (-webkit-min-device-pixel-ratio: 0) {
+  .btn-safari-optimized {
+    -webkit-transform: translateZ(0);
+    -webkit-backface-visibility: hidden;
+    -webkit-transition: all 0.3s ease;
+  }
+  
+  .btn-safari-optimized:hover {
+    -webkit-transform: translateZ(0) translateY(-2px);
+  }
+}
+
+/* Safari mobile viewport fixes */
+@supports (-webkit-touch-callout: none) {
+  .safari-mobile-viewport {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-top: env(safe-area-inset-top);
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+  
+  .safari-mobile-hero {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-top: max(env(safe-area-inset-top), 2rem);
+    padding-bottom: max(env(safe-area-inset-bottom), 2rem);
+  }
+  
+  .safari-mobile-text {
+    padding-top: env(safe-area-inset-top);
+    margin-top: 0;
+  }
+}
+
+/* Safari mobile safe area support */
+@supports (padding: max(0px)) {
+  .safari-safe-area {
+    padding-top: max(env(safe-area-inset-top), 1rem);
+    padding-bottom: max(env(safe-area-inset-bottom), 1rem);
+    padding-left: max(env(safe-area-inset-left), 1rem);
+    padding-right: max(env(safe-area-inset-right), 1rem);
+  }
+}
+
+/* Safari mobile text cutoff fix */
+@media screen and (-webkit-min-device-pixel-ratio: 0) and (max-width: 768px) {
+  .safari-mobile-text-fix {
+    padding-top: env(safe-area-inset-top, 2rem);
+    margin-top: 0;
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+  }
+  
+  .safari-mobile-hero-fix {
+    min-height: 100vh;
+    min-height: -webkit-fill-available;
+    padding-top: max(env(safe-area-inset-top), 1.5rem);
+    padding-bottom: max(env(safe-area-inset-bottom), 1.5rem);
   }
 }

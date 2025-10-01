@@ -8,14 +8,18 @@ import {
   STANDARD_VARIANTS,
   getMotionConfig,
 } from "@/lib/use-scroll-animation";
+import { getSafariOptimizedClasses, isSafari } from "@/lib/safari-utils";
 
 export default function CTA() {
   const { ref, isInView } = useScrollAnimation();
+  
+  // Get Safari-specific optimized classes
+  const safariClasses = isSafari() ? getSafariOptimizedClasses().join(' ') : '';
 
   return (
     <section
       id="contact"
-      className="h-screen relative flex justify-center items-center py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black overflow-hidden"
+      className={`h-screen relative flex justify-center items-center py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black overflow-hidden ${safariClasses}`}
       ref={ref}
     >
       <DottedSurface />
@@ -39,7 +43,7 @@ export default function CTA() {
         </motion.p>
         <motion.div variants={STANDARD_VARIANTS.scaleIn}>
           <Link href="mailto:info@mindbitsolution.com" target="_blank">
-            <button className="cursor-pointer border-1 bg-teal-400 text-slate-800 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-all text-2xl sm:text-md btn-3d-lift btn-liquid btn-magnetic">
+            <button className={`cursor-pointer border-1 bg-teal-400 text-slate-800 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-all text-2xl sm:text-md btn-3d-lift btn-liquid btn-magnetic ${isSafari() ? 'btn-safari-optimized' : ''}`}>
               Let&apos;s Talk
             </button>
           </Link>

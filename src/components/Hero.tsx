@@ -4,6 +4,7 @@ import { motion, Variants, useScroll, useTransform, useReducedMotion } from "fra
 import { useRef } from "react";
 import { useScrollAnimation, STANDARD_VARIANTS, getMotionConfig } from "@/lib/use-scroll-animation";
 import AnimatedLogo from "@/components/ui/animated-logo";
+import { isSafariMobile } from "@/lib/safari-utils";
 
 export default function Hero() {
   const containerRef = useRef(null);
@@ -34,11 +35,16 @@ export default function Hero() {
     }
   };
 
+  // Get Safari-specific classes for mobile fixes
+  const isSafariMobileDevice = isSafariMobile();
+  const safariClasses = isSafariMobileDevice ? 'safari-mobile-hero-fix safari-mobile-viewport' : '';
+  const safariTextClasses = isSafariMobileDevice ? 'safari-mobile-text-fix' : '';
+
   return (
     <section 
       ref={containerRef} 
       id="home" 
-      className="h-[calc(100vh-200px)] sm:h-[calc(100vh-130px)] bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative overflow-hidden"
+      className={`h-[calc(100vh-200px)] sm:h-[calc(100vh-130px)] bg-white flex items-center justify-center px-4 sm:px-6 lg:px-8 py-16 sm:py-20 lg:py-24 relative overflow-hidden ${safariClasses}`}
     >
       <motion.div 
         className="absolute inset-0 -top-10 flex items-center justify-center pointer-events-none"
@@ -57,7 +63,7 @@ export default function Hero() {
         style={{ y: yTransform, opacity: opacityTransform }}
       >
         <motion.h1 
-          className="text-5xl xs:text-4xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl font-medium text-gray-900 mb-4 sm:mb-6 leading-tight px-2 relative overflow-hidden"
+          className={`text-5xl xs:text-4xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl font-medium text-gray-900 mb-4 sm:mb-6 leading-tight px-2 relative overflow-hidden ${safariTextClasses}`}
           variants={STANDARD_VARIANTS.title}
         >
           <span className="relative inline-block font-medium">
