@@ -197,10 +197,10 @@ export default function FeaturedProjects() {
       ], // Multiple images
     },
     {
-      title: "Shi Kyntien Educational Game",
+      title: "Shi Kyntien Mobile Game",
       description:
         "An immersive mobile game teaching the Khasi language through fun challenges and interactive quizzes. Designed to boost cultural pride and language skills among kids with colorful graphics and reward-based progression.",
-      images: ["/images/ui/birdOrigami.png"], // Multiple images
+      images: ["/images/projects/shikyntien_1.png", "/images/projects/shikyntien_2.png", "/images/projects/shikyntien_3.png"], // Multiple images
     },
     {
       title: "7 Sisters Cookbook App & Website",
