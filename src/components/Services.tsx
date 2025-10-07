@@ -74,7 +74,7 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       ref={cardRef}
       key={index}
       variants={serviceCardVariants}
-      initial="hidden"
+      initial={disableMobileAnimations ? "visible" : "hidden"}
       animate={isCardInView ? "visible" : "hidden"}
       whileHover={disableMobileAnimations ? {} : {
         transition: {
@@ -103,17 +103,17 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       </motion.div>
       <motion.h3
         className="text-[1.5em] sm:text-[1.7em] font-normal text-black mb-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        animate={isCardInView ? { opacity: 1, y: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.2, duration: 0.6 }}
       >
         {service.title}
       </motion.h3>
       <motion.p
         className="text-gray-600 text-sm sm:text-base leading-relaxed"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        animate={isCardInView ? { opacity: 1, y: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.4, duration: 0.6 }}
       >
         {service.description}
       </motion.p>

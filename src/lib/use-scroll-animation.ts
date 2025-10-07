@@ -179,9 +179,9 @@ export const getMotionConfig = () => {
   
   if (prefersReducedMotion || disableMobileAnimations) {
     return {
-      initial: false,
-      animate: { opacity: 1 },
-      transition: { duration: 0.01 }
+      initial: "visible",
+      animate: "visible",
+      transition: { duration: 0 }
     };
   }
   

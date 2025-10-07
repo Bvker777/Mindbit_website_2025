@@ -2,11 +2,10 @@
 
 import { motion, Variants, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import { useScrollAnimation, STANDARD_VARIANTS, getMotionConfig, getAnimationVariants } from "@/lib/use-scroll-animation";
+import { useScrollAnimation, STANDARD_VARIANTS } from "@/lib/use-scroll-animation";
 import AnimatedLogo from "@/components/ui/animated-logo";
-import RollingText from "@/components/ui/rolling-text";
 import { isSafariMobile } from "@/lib/safari-utils";
-import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
+import { shouldDisableHeroMobileAnimations } from "@/lib/performance-utils";
 
 export default function Hero() {
   const containerRef = useRef(null);
@@ -14,13 +13,13 @@ export default function Hero() {
   const { ref: scrollRef } = useScrollAnimation({ margin: "0px" });
   const prefersReduced = useReducedMotion();
   
-  // Check if mobile animations should be disabled
-  const disableMobileAnimations = shouldDisableMobileAnimations();
+  // Check if Hero mobile animations should be disabled (allows Hero animations on mobile)
+  const disableHeroMobileAnimations = shouldDisableHeroMobileAnimations();
   
-  // Parallax effects (disabled on mobile)
-  const yTransform = useTransform(scrollY, [0, 500], [0, disableMobileAnimations ? 0 : -100]);
-  const opacityTransform = useTransform(scrollY, [0, 300], [1, disableMobileAnimations ? 1 : 0.3]);
-  const logoYTransform = useTransform(scrollY, [0, 500], [0, (prefersReduced || disableMobileAnimations) ? 0 : 20]);
+  // Parallax effects (disabled only for very low-end mobile devices)
+  const yTransform = useTransform(scrollY, [0, 500], [0, disableHeroMobileAnimations ? 0 : -100]);
+  const opacityTransform = useTransform(scrollY, [0, 300], [1, disableHeroMobileAnimations ? 1 : 0.3]);
+  const logoYTransform = useTransform(scrollY, [0, 500], [0, (prefersReduced || disableHeroMobileAnimations) ? 0 : 20]);
 
   const tags = [
     "AI Agents",
@@ -29,9 +28,47 @@ export default function Hero() {
     "Interactive Media"
   ];
 
-  // Get appropriate animation variants
-  const animationVariants = getAnimationVariants();
+  // Get appropriate animation variants for Hero (allows animations on mobile)
+  const getHeroAnimationVariants = () => {
+    if (typeof window !== 'undefined' && shouldDisableHeroMobileAnimations()) {
+      return {
+        container: { hidden: { opacity: 1 }, visible: { opacity: 1 } },
+        slideUp: { hidden: { opacity: 1, y: 0, scale: 1 }, visible: { opacity: 1, y: 0, scale: 1 } },
+        slideLeft: { hidden: { opacity: 1, x: 0 }, visible: { opacity: 1, x: 0 } },
+        slideRight: { hidden: { opacity: 1, x: 0 }, visible: { opacity: 1, x: 0 } },
+        fadeIn: { hidden: { opacity: 1 }, visible: { opacity: 1 } },
+        scaleIn: { hidden: { opacity: 1, scale: 1 }, visible: { opacity: 1, scale: 1 } },
+        title: { hidden: { opacity: 1, y: 0, scale: 1 }, visible: { opacity: 1, y: 0, scale: 1 } }
+      };
+    }
+    return STANDARD_VARIANTS;
+  };
+  
+  const animationVariants = getHeroAnimationVariants();
   const containerVariants: Variants = animationVariants.container;
+  
+  // Custom motion config for Hero (allows animations on mobile)
+  const getHeroMotionConfig = () => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = typeof window !== 'undefined' && 
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
+    // Check if Hero mobile animations should be disabled (only for very low-end devices)
+    const disableHeroMobileAnimations = typeof window !== 'undefined' && shouldDisableHeroMobileAnimations();
+    
+    if (prefersReducedMotion || disableHeroMobileAnimations) {
+      return {
+        initial: "visible",
+        animate: "visible",
+        transition: { duration: 0 }
+      };
+    }
+    
+    return {
+      initial: "hidden",
+      animate: "visible"
+    };
+  };
 
   // Get Safari-specific classes for mobile fixes
   const isSafariMobileDevice = isSafariMobile();
@@ -57,8 +94,11 @@ export default function Hero() {
       <motion.div 
         className="w-full max-w-5xl mx-auto text-left sm:text-center relative z-10"
         variants={containerVariants}
-        {...getMotionConfig()}
-        style={{ y: yTransform, opacity: opacityTransform }}
+        {...getHeroMotionConfig()}
+        style={{ 
+          y: disableHeroMobileAnimations ? 0 : yTransform, 
+          opacity: disableHeroMobileAnimations ? 1 : opacityTransform 
+        }}
       >
         <motion.h1 
           className={`text-5xl xs:text-4xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-7xl 2xl:text-8xl font-medium text-gray-900 mb-4 sm:mb-6 leading-tight px-2 relative overflow-hidden ${safariTextClasses}`}
@@ -72,7 +112,7 @@ export default function Hero() {
               className="inline"
               transition={{ duration: 0.6, delay: 0.05, ease: "easeOut" }}
             /> */}
-            <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer"></span>
+            {/* <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer"></span> */}
           </span>
         </motion.h1>
         

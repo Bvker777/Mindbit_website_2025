@@ -133,7 +133,7 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       onMouseEnter={() => !isMobile && setIsHovered(true)}
       onMouseLeave={handleMouseLeave}
       variants={cardVariants}
-      initial="hidden"
+      initial={disableMobileAnimations ? "visible" : "hidden"}
       animate={isCardInView ? "visible" : "hidden"}
       style={{ transform: disableMobileAnimations ? 'none' : `translateY(${parallaxY}px)` }}
       whileHover={disableMobileAnimations ? {} : {

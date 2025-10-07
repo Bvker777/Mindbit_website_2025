@@ -549,13 +549,9 @@ body {
 
 /* Mobile animation disabling */
 @media (max-width: 767px) {
-  /* Disable all Framer Motion animations on mobile */
-  [data-framer-motion] {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.01ms !important;
-    transform: none !important;
-    -webkit-transform: none !important;
+  /* Ensure all content is visible on mobile */
+  body, main, section, div {
+    opacity: 1 !important;
   }
   
   /* Disable hover effects on mobile */
@@ -576,7 +572,6 @@ body {
   /* Ensure all elements are visible on mobile */
   .mobile-visible {
     opacity: 1 !important;
-    transform: none !important;
-    -webkit-transform: none !important;
+    visibility: visible !important;
   }
 }

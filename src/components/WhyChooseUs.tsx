@@ -3,26 +3,28 @@
 import { WavePath } from '@/components/ui/wave-path';
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef } from "react";
+import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 // Individual feature item component with its own viewport detection
 function FeatureItem({ feature, index }: { feature: { title: string; description: string }; index: number }) {
   const featureRef = useRef(null);
   const isFeatureInView = useInView(featureRef, { once: true, margin: "-50px" });
+  const disableMobileAnimations = shouldDisableMobileAnimations();
 
   return (
     <motion.div 
       ref={featureRef}
       className={`${index < 4 ? 'pb-6 sm:pb-8' : ''}`}
-      initial={{ opacity: 0, y: 60, x: -30 }}
-      animate={isFeatureInView ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 60, x: -30 }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
+      initial={disableMobileAnimations ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 60, x: -30 }}
+      animate={isFeatureInView ? { opacity: 1, y: 0, x: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0, x: 0 } : { opacity: 0, y: 60, x: -30 })}
+      transition={disableMobileAnimations ? { duration: 0 } : { duration: 0.8, ease: "easeOut" }}
     >
       {/* Interactive Wave Path for visual appeal */}
       <motion.div 
         className=" sm:mb-2 lg:mb-2 w-full"
-        initial={{ opacity: 0, scale: 0.8 }}
-        animate={isFeatureInView ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
-        transition={{ duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 }}
+        animate={isFeatureInView ? { opacity: 1, scale: 1 } : (disableMobileAnimations ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.8 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { duration: 0.6 }}
       >
         <WavePath 
           className="text-white w-full" 
@@ -34,23 +36,23 @@ function FeatureItem({ feature, index }: { feature: { title: string; description
       
       <motion.div 
         className='grid grid-cols-1 lg:grid-cols-[1fr_2fr]'
-        initial={{ opacity: 0 }}
-        animate={isFeatureInView ? { opacity: 1 } : { opacity: 0 }}
-        transition={{ delay: 0.2, duration: 0.8 }}
+        initial={disableMobileAnimations ? { opacity: 1 } : { opacity: 0 }}
+        animate={isFeatureInView ? { opacity: 1 } : (disableMobileAnimations ? { opacity: 1 } : { opacity: 0 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.2, duration: 0.8 }}
       >
         <motion.h4 
           className="text-[1.5em] sm:text-[1.7em] font-normal text-white mb-1 sm:mb-3 lg:mb-0 text-left"
-          initial={{ opacity: 0, x: -20 }}
-          animate={isFeatureInView ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
-          transition={{ delay: 0.3, duration: 0.6 }}
+          initial={disableMobileAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 }}
+          animate={isFeatureInView ? { opacity: 1, x: 0 } : (disableMobileAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: -20 })}
+          transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.3, duration: 0.6 }}
         >
           {feature.title}
         </motion.h4>
         <motion.p 
           className="text-slate-300 text-sm sm:text-base leading-relaxed text-left"
-          initial={{ opacity: 0, x: 20 }}
-          animate={isFeatureInView ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
-          transition={{ delay: 0.4, duration: 0.6 }}
+          initial={disableMobileAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
+          animate={isFeatureInView ? { opacity: 1, x: 0 } : (disableMobileAnimations ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 })}
+          transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.4, duration: 0.6 }}
         >
           {feature.description}
         </motion.p>

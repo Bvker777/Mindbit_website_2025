@@ -3,6 +3,7 @@
 import Image from 'next/image';
 import { motion, useInView, Variants } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 interface TeamMember {
   name: string;
@@ -14,6 +15,7 @@ interface TeamMember {
 function TeamMemberCard({ member, index }: { member: TeamMember; index: number }) {
   const [isCardInView, setIsCardInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
+  const disableMobileAnimations = shouldDisableMobileAnimations();
 
   // Intersection Observer for scroll animation
   useEffect(() => {
@@ -39,7 +41,10 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
     };
   }, []);
 
-  const memberCardVariants: Variants = {
+  const memberCardVariants: Variants = disableMobileAnimations ? {
+    hidden: { opacity: 1, y: 0, scale: 1 },
+    visible: { opacity: 1, y: 0, scale: 1 }
+  } : {
     hidden: { 
       opacity: 0, 
       y: 60,
@@ -63,17 +68,17 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
       key={index} 
       className="text-center"
       variants={memberCardVariants}
-      initial="hidden"
+      initial={disableMobileAnimations ? "visible" : "hidden"}
       animate={isCardInView ? "visible" : "hidden"}
-      whileHover={{ 
+      whileHover={disableMobileAnimations ? {} : { 
         // y: -10,
         transition: { duration: 0.3 }
       }}
     >
       <motion.div 
         className="w-full max-w-xs mx-auto mb-4 overflow-hidden rounded-2xl sm:rounded-3xl lg:rounded-4xl"
-        whileHover={{ scale: .95 }}
-        transition={{ duration: 0.3 }}
+        whileHover={disableMobileAnimations ? {} : { scale: .95 }}
+        transition={disableMobileAnimations ? {} : { duration: 0.3 }}
       >
         <Image
           src={member.image}
@@ -86,17 +91,17 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
       </motion.div>
       <motion.h3 
         className="text-[1.4em] font-normal text-gray-900 mb-1"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 0.2, duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        animate={isCardInView ? { opacity: 1, y: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.2, duration: 0.6 }}
       >
         {member.name}
       </motion.h3>
       <motion.div 
         className="mb-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        animate={isCardInView ? { opacity: 1, y: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.3, duration: 0.6 }}
       >
         <span className="inline-block  text-gray-700 border border-gray-300 px-3 py-1 text-sm font-medium rounded-lg">
           Co founder
@@ -104,9 +109,9 @@ function TeamMemberCard({ member, index }: { member: TeamMember; index: number }
       </motion.div>
       <motion.p 
         className="text-gray-600 text-sm sm:text-base leading-relaxed px-2"
-        initial={{ opacity: 0, y: 20 }}
-        animate={isCardInView ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ delay: 0.4, duration: 0.6 }}
+        initial={disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        animate={isCardInView ? { opacity: 1, y: 0 } : (disableMobileAnimations ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 })}
+        transition={disableMobileAnimations ? { duration: 0 } : { delay: 0.4, duration: 0.6 }}
       >
         {member.description}
       </motion.p>

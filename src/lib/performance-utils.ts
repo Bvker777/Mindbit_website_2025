@@ -32,6 +32,19 @@ export const shouldDisableMobileAnimations = (): boolean => {
   return isMobileDevice();
 };
 
+// Check if Hero animations should be disabled on mobile (allows Hero animations on mobile)
+export const shouldDisableHeroMobileAnimations = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Allow Hero animations on mobile - only disable for very low-end devices
+  const nav = navigator as NavigatorWithDeviceMemory;
+  const isVeryLowEnd = 
+    navigator.hardwareConcurrency <= 1 || // Very low CPU cores
+    (nav.deviceMemory && nav.deviceMemory <= 2); // Very low RAM (if available)
+  
+  return isVeryLowEnd;
+};
+
 export const getDevicePerformance = () => {
   if (typeof window === 'undefined') return 'high';
   

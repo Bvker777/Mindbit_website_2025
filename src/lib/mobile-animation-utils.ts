@@ -50,9 +50,9 @@ export const useMobileAnimationConfig = () => {
       title: { hidden: { opacity: 1, y: 0, scale: 1 }, visible: { opacity: 1, y: 0, scale: 1 } }
     } : null,
     motionConfig: isMobile ? {
-      initial: false,
-      animate: { opacity: 1 },
-      transition: { duration: 0.01 }
+      initial: "visible",
+      animate: "visible",
+      transition: { duration: 0 }
     } : {
       initial: "hidden",
       animate: "visible"
@@ -67,16 +67,15 @@ export const disableMobileAnimations = () => {
   // Add CSS class to disable animations
   document.documentElement.classList.add('mobile-animations-disabled');
   
-  // Disable Framer Motion animations
+  // Ensure all content is visible on mobile
   const style = document.createElement('style');
+  style.setAttribute('data-mobile-animations', 'true');
   style.textContent = `
     @media (max-width: 767px) {
-      [data-framer-motion] {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-        transform: none !important;
-        -webkit-transform: none !important;
+      /* Ensure all content is visible */
+      body, main, section, div, h1, h2, h3, h4, h5, h6, p {
+        opacity: 1 !important;
+        visibility: visible !important;
       }
       
       *:hover {
