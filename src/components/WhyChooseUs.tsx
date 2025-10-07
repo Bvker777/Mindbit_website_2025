@@ -102,7 +102,7 @@ export default function WhyChooseUs() {
   };
 
   return (
-    <section className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black" ref={ref}>
+    <section className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black m-5 rounded-4xl" ref={ref}>
       <div className="max-w-7xl mx-auto">
         <motion.h2 
           className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-8 sm:mb-12 text-left font-medium"
