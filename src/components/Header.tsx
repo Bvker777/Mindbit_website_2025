@@ -42,7 +42,7 @@ export default function Header() {
     { href: "#about", label: "About Us", ariaLabel: "Navigate to about us section" },
     { href: "#portfolio", label: "Portfolio", ariaLabel: "Navigate to portfolio section" },
     { href: "#services", label: "Services", ariaLabel: "Navigate to services section" },
-    { href: "#team", label: "Team", ariaLabel: "Navigate to team section" },
+    // { href: "#team", label: "Team", ariaLabel: "Navigate to team section" },
     { href: "#contact", label: "Contact Us", ariaLabel: "Navigate to contact section" }
   ];
 
