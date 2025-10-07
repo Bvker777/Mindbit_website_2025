@@ -6,9 +6,10 @@ import { motion, Variants } from "framer-motion";
 import {
   useScrollAnimation,
   useParallaxScroll,
-  STANDARD_VARIANTS,
   getMotionConfig,
+  getAnimationVariants,
 } from "@/lib/use-scroll-animation";
+import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 // Hook to detect mobile devices
 const useIsMobile = () => {
@@ -20,8 +21,8 @@ const useIsMobile = () => {
     };
 
     checkIsMobile();
-    window.addEventListener('resize', checkIsMobile);
-    return () => window.removeEventListener('resize', checkIsMobile);
+    window.addEventListener("resize", checkIsMobile);
+    return () => window.removeEventListener("resize", checkIsMobile);
   }, []);
 
   return isMobile;
@@ -45,6 +46,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
   const velocities = [-0.1, 0.15, -0.08, 0.12]; // Alternating positive/negative for variety
   const velocity = velocities[index] || 0.1;
   const parallaxY = useParallaxScroll(velocity, cardRef);
+  
+  // Check if mobile animations should be disabled
+  const disableMobileAnimations = shouldDisableMobileAnimations();
 
   // Intersection Observer for scroll animation
   useEffect(() => {
@@ -53,9 +57,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
         setIsInView(entry.isIntersecting);
         setIsCardInView(entry.isIntersecting);
       },
-      { 
+      {
         threshold: 0.2, // Trigger when 20% of the card is visible
-        rootMargin: "0px 0px -50px 0px" // Start animation slightly before card is fully in view
+        rootMargin: "0px 0px -50px 0px", // Start animation slightly before card is fully in view
       }
     );
 
@@ -73,7 +77,6 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
-
     // On mobile: loop when in view, on desktop: loop when hovered
     const shouldLoop = isMobile ? isInView : isHovered;
 
@@ -98,7 +101,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
     }
   };
 
-  const cardVariants: Variants = {
+  // Get appropriate animation variants
+  const animationVariants = getAnimationVariants();
+  const cardVariants: Variants = disableMobileAnimations ? animationVariants.slideUp : {
     hidden: {
       opacity: 0,
       y: 80,
@@ -130,20 +135,22 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       variants={cardVariants}
       initial="hidden"
       animate={isCardInView ? "visible" : "hidden"}
-      style={{ transform: `translateY(${parallaxY}px)` }}
-      whileHover={{
+      style={{ transform: disableMobileAnimations ? 'none' : `translateY(${parallaxY}px)` }}
+      whileHover={disableMobileAnimations ? {} : {
         boxShadow: "0 20px 40px rgba(0, 0, 0, 0.1)",
         transition: { duration: 0.3 },
       }}
     >
       <motion.div 
         className="aspect-square rounded-2xl sm:rounded-3xl lg:rounded-4xl mb-4 overflow-hidden relative"
-        whileHover={{ scale: 0.95 }}
-        transition={{ duration: 0.3 }}
+        whileHover={disableMobileAnimations ? {} : { scale: 0.95 }}
+        transition={disableMobileAnimations ? {} : { duration: 0.3 }}
       >
         <Image
           src={project.images[currentImageIndex]}
-          alt={`${project.title} project screenshot ${currentImageIndex + 1} of ${project.images.length}`}
+          alt={`${project.title} project screenshot ${
+            currentImageIndex + 1
+          } of ${project.images.length}`}
           width={400}
           height={400}
           className="w-full h-full object-cover transition-opacity duration-300"
@@ -174,7 +181,10 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
 
 export default function FeaturedProjects() {
   // Relaxed viewport detection so section reliably becomes visible on mobile
-  const { ref, isInView } = useScrollAnimation({ margin: "0px 0px -10% 0px", amount: 0.1 });
+  const { ref, isInView } = useScrollAnimation({
+    margin: "0px 0px -10% 0px",
+    amount: 0.1,
+  });
 
   const projects = [
     {
@@ -196,7 +206,10 @@ export default function FeaturedProjects() {
       title: "7 Sisters Cookbook App & Website",
       description:
         "A recipe app celebrating Northeast India's culinary heritage. Includes step-by-step cooking guides, instructional videos, and regional ingredient glossaries—perfect for food lovers and home chefs.",
-      images: ["/images/projects/7sistersKitchenWhite.png", "/images/projects/7sistersKitchenLaptop.png"], // Multiple images
+      images: [
+        "/images/projects/7sistersKitchenWhite.png",
+        "/images/projects/7sistersKitchenLaptop.png",
+      ], // Multiple images
     },
     {
       title: "Admission Portal ",
@@ -209,13 +222,13 @@ export default function FeaturedProjects() {
   return (
     <section
       id="portfolio"
-      className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black"
+      className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black m-5 rounded-4xl"
       ref={ref}
     >
       <div className="max-w-7xl mx-auto">
         <motion.h2
           className="text-4xl sm:text-4xl md:text-5xl lg:text-6xl text-white mb-8 sm:mb-12 font-medium"
-          variants={STANDARD_VARIANTS.title}
+          variants={getAnimationVariants().title}
           {...getMotionConfig()}
           animate={isInView ? "visible" : "hidden"}
         >

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import MobileAnimationInitializer from "@/components/MobileAnimationInitializer";
 
 const poppins = Poppins({
   variable: "--font-poppins",
@@ -210,6 +211,7 @@ export default function RootLayout({
         className={`${poppins.variable} antialiased`}
         suppressHydrationWarning={true}
       >
+        <MobileAnimationInitializer />
         {children}
       </body>
     </html>

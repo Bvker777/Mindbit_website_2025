@@ -2,9 +2,11 @@
 
 import { motion, Variants, useScroll, useTransform, useReducedMotion } from "framer-motion";
 import { useRef } from "react";
-import { useScrollAnimation, STANDARD_VARIANTS, getMotionConfig } from "@/lib/use-scroll-animation";
+import { useScrollAnimation, STANDARD_VARIANTS, getMotionConfig, getAnimationVariants } from "@/lib/use-scroll-animation";
 import AnimatedLogo from "@/components/ui/animated-logo";
+import RollingText from "@/components/ui/rolling-text";
 import { isSafariMobile } from "@/lib/safari-utils";
+import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 export default function Hero() {
   const containerRef = useRef(null);
@@ -12,10 +14,13 @@ export default function Hero() {
   const { ref: scrollRef } = useScrollAnimation({ margin: "0px" });
   const prefersReduced = useReducedMotion();
   
-  // Parallax effects
-  const yTransform = useTransform(scrollY, [0, 500], [0, -100]);
-  const opacityTransform = useTransform(scrollY, [0, 300], [1, 0.3]);
-  const logoYTransform = useTransform(scrollY, [0, 500], [0, prefersReduced ? 0 : 20]);
+  // Check if mobile animations should be disabled
+  const disableMobileAnimations = shouldDisableMobileAnimations();
+  
+  // Parallax effects (disabled on mobile)
+  const yTransform = useTransform(scrollY, [0, 500], [0, disableMobileAnimations ? 0 : -100]);
+  const opacityTransform = useTransform(scrollY, [0, 300], [1, disableMobileAnimations ? 1 : 0.3]);
+  const logoYTransform = useTransform(scrollY, [0, 500], [0, (prefersReduced || disableMobileAnimations) ? 0 : 20]);
 
   const tags = [
     "AI Agents",
@@ -24,16 +29,9 @@ export default function Hero() {
     "Interactive Media"
   ];
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2
-      }
-    }
-  };
+  // Get appropriate animation variants
+  const animationVariants = getAnimationVariants();
+  const containerVariants: Variants = animationVariants.container;
 
   // Get Safari-specific classes for mobile fixes
   const isSafariMobileDevice = isSafariMobile();
@@ -69,6 +67,11 @@ export default function Hero() {
           <span className="relative inline-block font-medium">
             Software solutions for people{" "}
             <span className="block sm:inline">who hate complicated stuff</span>
+            {/* <RollingText 
+              text="Software solutions for people "
+              className="inline"
+              transition={{ duration: 0.6, delay: 0.05, ease: "easeOut" }}
+            /> */}
             <span className="absolute inset-0 bg-gradient-to-r from-transparent via-white to-transparent opacity-30 animate-shimmer"></span>
           </span>
         </motion.h1>
@@ -77,8 +80,8 @@ export default function Hero() {
           className="text-base sm:text-lg md:text-xl lg:text-2xl xl:text-2xl text-gray-600 mb-6 sm:mb-8 leading-relaxed max-w-4xl mx-auto px-4 sm:px-2 text-left sm:text-center"
           variants={STANDARD_VARIANTS.slideUp}
         >
-          We build digital solutions that actually make sense - from AI Agents{" "}
-          <span className="block sm:inline">to custom apps that work perfectly for your business.</span>
+          No buzzwords, no fluff.  Just digital perfection, <br />  
+          or as close to it as we can get.
         </motion.p>
         
         <motion.div 

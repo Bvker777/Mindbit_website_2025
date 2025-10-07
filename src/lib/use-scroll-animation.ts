@@ -1,5 +1,6 @@
 import { useInView } from "framer-motion";
 import { useRef, useState, useEffect } from "react";
+import { shouldDisableMobileAnimations } from "./performance-utils";
 
 // Standardized animation configuration
 export const ANIMATION_CONFIG = {
@@ -7,6 +8,38 @@ export const ANIMATION_CONFIG = {
   once: true,
   amount: 0.2,
 } as const;
+
+// Mobile-optimized animation variants (no animations)
+export const MOBILE_VARIANTS = {
+  container: {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1 }
+  },
+  slideUp: {
+    hidden: { opacity: 1, y: 0, scale: 1 },
+    visible: { opacity: 1, y: 0, scale: 1 }
+  },
+  slideLeft: {
+    hidden: { opacity: 1, x: 0 },
+    visible: { opacity: 1, x: 0 }
+  },
+  slideRight: {
+    hidden: { opacity: 1, x: 0 },
+    visible: { opacity: 1, x: 0 }
+  },
+  fadeIn: {
+    hidden: { opacity: 1 },
+    visible: { opacity: 1 }
+  },
+  scaleIn: {
+    hidden: { opacity: 1, scale: 1 },
+    visible: { opacity: 1, scale: 1 }
+  },
+  title: {
+    hidden: { opacity: 1, y: 0, scale: 1 },
+    visible: { opacity: 1, y: 0, scale: 1 }
+  }
+};
 
 // Standard animation variants
 export const STANDARD_VARIANTS = {
@@ -116,6 +149,14 @@ export const STANDARD_VARIANTS = {
   }
 } as const;
 
+// Get appropriate animation variants based on device type
+export const getAnimationVariants = () => {
+  if (typeof window !== 'undefined' && shouldDisableMobileAnimations()) {
+    return MOBILE_VARIANTS;
+  }
+  return STANDARD_VARIANTS;
+};
+
 // Custom hook for consistent scroll animations
 export function useScrollAnimation(options = {}) {
   const ref = useRef(null);
@@ -133,7 +174,10 @@ export const getMotionConfig = () => {
   const prefersReducedMotion = typeof window !== 'undefined' && 
     window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
-  if (prefersReducedMotion) {
+  // Check if mobile animations should be disabled
+  const disableMobileAnimations = typeof window !== 'undefined' && shouldDisableMobileAnimations();
+  
+  if (prefersReducedMotion || disableMobileAnimations) {
     return {
       initial: false,
       animate: { opacity: 1 },
@@ -175,6 +219,12 @@ export const useParallaxScroll = (velocity = 0.5, elementRef?: React.RefObject<H
   
   useEffect(() => {
     if (typeof window === 'undefined') return;
+    
+    // Disable parallax on mobile devices
+    if (shouldDisableMobileAnimations()) {
+      setOffsetY(0);
+      return;
+    }
     
     let ticking = false;
     let lastScrollY = 0;

@@ -7,6 +7,31 @@ interface NavigatorWithDeviceMemory extends Navigator {
   deviceMemory?: number;
 }
 
+// Mobile device detection
+export const isMobileDevice = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Check for mobile user agents
+  const mobileRegex = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i;
+  const isMobileUA = mobileRegex.test(navigator.userAgent);
+  
+  // Check for touch capability
+  const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+  
+  // Check screen size (mobile breakpoint)
+  const isMobileScreen = window.innerWidth < 768; // md breakpoint
+  
+  return isMobileUA || (isTouchDevice && isMobileScreen);
+};
+
+// Check if animations should be disabled on mobile
+export const shouldDisableMobileAnimations = (): boolean => {
+  if (typeof window === 'undefined') return false;
+  
+  // Always disable animations on mobile devices
+  return isMobileDevice();
+};
+
 export const getDevicePerformance = () => {
   if (typeof window === 'undefined') return 'high';
   
@@ -35,6 +60,9 @@ export const shouldReduceAnimations = () => {
   // Check for reduced motion preference
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   
+  // Check if mobile animations should be disabled
+  const disableMobileAnimations = shouldDisableMobileAnimations();
+  
   // Check device performance
   const devicePerformance = getDevicePerformance();
   
@@ -46,7 +74,7 @@ export const shouldReduceAnimations = () => {
     }
   }
   
-  return prefersReducedMotion || devicePerformance === 'low';
+  return prefersReducedMotion || devicePerformance === 'low' || disableMobileAnimations;
 };
 
 export const getOptimizedAnimationConfig = () => {

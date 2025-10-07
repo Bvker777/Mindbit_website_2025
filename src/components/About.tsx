@@ -4,15 +4,22 @@ import Image from "next/image";
 import { motion, Variants } from "framer-motion";
 import {
   useScrollAnimation,
-  STANDARD_VARIANTS,
   getMotionConfig,
+  getAnimationVariants,
 } from "@/lib/use-scroll-animation";
+import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 export default function About() {
   const { ref, isInView } = useScrollAnimation();
+  
+  // Check if mobile animations should be disabled
+  const disableMobileAnimations = shouldDisableMobileAnimations();
+  
+  // Get appropriate animation variants
+  const animationVariants = getAnimationVariants();
 
   // Enhanced text animation variants
-  const textVariants: Variants = {
+  const textVariants: Variants = disableMobileAnimations ? animationVariants.slideUp : {
     hidden: {
       opacity: 0,
       y: 30,
@@ -36,14 +43,14 @@ export default function About() {
       <div className="max-w-7xl mx-auto w-full">
         <motion.div
           className="grid grid-cols-1 lg:grid-cols-[1.5fr_2fr] gap-8 sm:gap-10 lg:gap-12 items-center"
-          variants={STANDARD_VARIANTS.container}
+          variants={animationVariants.container}
           {...getMotionConfig()}
           animate={isInView ? "visible" : "hidden"}
         >
           <motion.div
             className="w-full max-w-sm sm:max-w-md lg:max-w-lg aspect-square rounded-3xl lg:rounded-4xl overflow-hidden relative mx-auto"
-            variants={STANDARD_VARIANTS.slideLeft}
-            whileHover={{
+            variants={animationVariants.slideLeft}
+            whileHover={disableMobileAnimations ? {} : {
               scale: 1.02,
               transition: { duration: 0.3 },
             }}
@@ -55,24 +62,22 @@ export default function About() {
               className="object-cover"
             />
           </motion.div>
-          <motion.div
-            variants={STANDARD_VARIANTS.slideRight}
-          >
+          <motion.div variants={animationVariants.slideRight}>
             <motion.p
               className="text-base sm:text-lg text-gray-700 mb-4 sm:mb-6 leading-relaxed"
               variants={textVariants}
             >
-              Since launching in 2025, MindBit Solutions has helped businesses
-              discover standout software—crafting memorable websites and digital
-              products that fit perfectly.
+              Since launching in 2025, our Team has helped businesses navigate
+              the digital super-highway by carving their own path and making it
+              a better one.
             </motion.p>
             <motion.p
               className="text-base sm:text-lg text-gray-700 leading-relaxed"
               variants={textVariants}
             >
-              Every project is built without shortcuts or compromises. Backed by
-              years of diverse experience, our team delivers original solutions
-              made exactly as imagined—no templates, no simplifications.
+              From AI Agents to custom apps, we build super software with no
+              compromises. Mindbit delivers original solutions made exactly as
+              imagined—no templates, no baggage.
             </motion.p>
           </motion.div>
         </motion.div>

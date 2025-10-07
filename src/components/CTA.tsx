@@ -1,6 +1,7 @@
 "use client";
 
 import { DottedSurface } from "@/components/ui/dotted-surface";
+import { Magnetic } from "@/components/ui/magnetic";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import {
@@ -42,11 +43,23 @@ export default function CTA() {
           Feel free to reach out to us!
         </motion.p>
         <motion.div variants={STANDARD_VARIANTS.scaleIn}>
-          <Link href="mailto:info@mindbitsolution.com" target="_blank">
-            <button className={`cursor-pointer border-1 bg-teal-400 text-slate-800 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-all text-2xl sm:text-md btn-3d-lift btn-liquid btn-magnetic ${isSafari() ? 'btn-safari-optimized' : ''}`}>
-              Let&apos;s Talk
-            </button>
-          </Link>
+          <Magnetic
+            strength={0.6}
+            range={150}
+            springOptions={{
+              stiffness: 150,
+              damping: 15,
+              mass: 0.1,
+            }}
+            onlyOnHover={true}
+            disableOnTouch={true}
+          >
+            <Link href="mailto:info@mindbitsolution.com" target="_blank">
+              <button className={`cursor-pointer border-1 bg-teal-400 text-slate-800 px-6 sm:px-8 py-2 sm:py-3 rounded-full font-medium transition-all text-2xl sm:text-md btn-basic ${isSafari() ? 'btn-safari-optimized' : ''}`}>
+                Let&apos;s Talk
+              </button>
+            </Link>
+          </Magnetic>
         </motion.div>
       </motion.div>
     </section>

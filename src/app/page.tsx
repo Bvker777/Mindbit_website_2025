@@ -19,7 +19,7 @@ export default function Home() {
         <FeaturedProjects />
         <ServicesSection />
         <WhyChooseUs />
-        <TeamSection />
+        {/* <TeamSection /> */}
         <CTASection />
       </main>
       <Footer />
