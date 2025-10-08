@@ -1,11 +1,9 @@
 "use client";
 
-import { motion, Variants, useScroll, useTransform, useReducedMotion } from "framer-motion";
+import { motion, useScroll, useTransform, useReducedMotion, useScrollAnimation, STANDARD_VARIANTS, shouldDisableHeroMobileAnimations, type Variants } from "@/lib/animations";
 import { useRef } from "react";
-import { useScrollAnimation, STANDARD_VARIANTS } from "@/lib/use-scroll-animation";
 import AnimatedLogo from "@/components/ui/animated-logo";
 import { isSafariMobile } from "@/lib/safari-utils";
-import { shouldDisableHeroMobileAnimations } from "@/lib/performance-utils";
 
 export default function Hero() {
   const containerRef = useRef(null);

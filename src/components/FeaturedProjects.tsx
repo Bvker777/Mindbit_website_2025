@@ -1,15 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { useState, useEffect, useRef } from "react";
-import { motion, Variants } from "framer-motion";
-import {
-  useScrollAnimation,
-  useParallaxScroll,
-  getMotionConfig,
-  getAnimationVariants,
-} from "@/lib/use-scroll-animation";
-import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
+import { useState, useEffect, useRef, Suspense, memo } from "react";
+import { motion, useScrollAnimation, useParallaxScroll, getMotionConfig, getAnimationVariants, shouldDisableMobileAnimations, type Variants } from "@/lib/animations";
+
+// Loading component for FeaturedProjects
+const FeaturedProjectsLoading = () => (
+  <section className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-black m-5 rounded-4xl">
+    <div className="max-w-7xl mx-auto">
+      <div className="h-16 bg-gray-800 rounded-lg mb-8 animate-pulse"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 sm:gap-12 lg:gap-20">
+        {[1, 2, 3, 4].map((i) => (
+          <div key={i} className="space-y-4">
+            <div className="aspect-square bg-gray-800 rounded-2xl animate-pulse"></div>
+            <div className="h-6 bg-gray-800 rounded animate-pulse"></div>
+            <div className="h-4 bg-gray-800 rounded animate-pulse"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 // Hook to detect mobile devices
 const useIsMobile = () => {
@@ -34,7 +45,7 @@ interface Project {
   images: string[];
 }
 
-function ProjectCard({ project, index }: { project: Project; index: number }) {
+const ProjectCard = memo(function ProjectCard({ project, index }: { project: Project; index: number }) {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -155,6 +166,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
           height={400}
           className="w-full h-full object-cover transition-opacity duration-300"
           loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
         {project.images.length > 1 && (
           <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 flex space-x-1">
@@ -177,9 +191,9 @@ function ProjectCard({ project, index }: { project: Project; index: number }) {
       </p>
     </motion.div>
   );
-}
+});
 
-export default function FeaturedProjects() {
+function FeaturedProjectsContent() {
   // Relaxed viewport detection so section reliably becomes visible on mobile
   const { ref, isInView } = useScrollAnimation({
     margin: "0px 0px -10% 0px",
@@ -242,5 +256,13 @@ export default function FeaturedProjects() {
         </div>
       </div>
     </section>
+  );
+}
+
+export default function FeaturedProjects() {
+  return (
+    <Suspense fallback={<FeaturedProjectsLoading />}>
+      <FeaturedProjectsContent />
+    </Suspense>
   );
 }

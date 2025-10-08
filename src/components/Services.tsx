@@ -1,14 +1,26 @@
 "use client";
 
 import Image from "next/image";
-import { motion, Variants } from "framer-motion";
-import { useState, useEffect, useRef } from "react";
-import {
-  useScrollAnimation,
-  getMotionConfig,
-  getAnimationVariants,
-} from "@/lib/use-scroll-animation";
-import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
+import { motion, useScrollAnimation, getMotionConfig, getAnimationVariants, shouldDisableMobileAnimations, type Variants } from "@/lib/animations";
+import { useState, useEffect, useRef, Suspense, memo } from "react";
+
+// Loading component for Services
+const ServicesLoading = () => (
+  <section className="py-20 sm:py-32 lg:py-40 px-4 sm:px-6 lg:px-8 xl:px-50 bg-white">
+    <div className="max-w-7xl mx-auto">
+      <div className="h-16 bg-gray-200 rounded-lg mb-8 animate-pulse"></div>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+        {[1, 2, 3].map((i) => (
+          <div key={i} className="space-y-4">
+            <div className="aspect-square bg-gray-200 rounded-2xl animate-pulse"></div>
+            <div className="h-6 bg-gray-200 rounded animate-pulse"></div>
+            <div className="h-4 bg-gray-200 rounded animate-pulse"></div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
 
 interface Service {
   title: string;
@@ -16,7 +28,7 @@ interface Service {
   image: string;
 }
 
-function ServiceCard({ service, index }: { service: Service; index: number }) {
+const ServiceCard = memo(function ServiceCard({ service, index }: { service: Service; index: number }) {
   const [isCardInView, setIsCardInView] = useState(false);
   const cardRef = useRef<HTMLDivElement>(null);
   
@@ -99,6 +111,9 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
           height={400}
           className="w-full h-full object-cover"
           loading="lazy"
+          placeholder="blur"
+          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+          sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
         />
       </motion.div>
       <motion.h3
@@ -119,9 +134,9 @@ function ServiceCard({ service, index }: { service: Service; index: number }) {
       </motion.p>
     </motion.div>
   );
-}
+});
 
-export default function Services() {
+function ServicesContent() {
   // Relaxed viewport detection so section reliably becomes visible on mobile
   const { ref, isInView } = useScrollAnimation({
     margin: "0px 0px -10% 0px",
@@ -188,5 +203,13 @@ export default function Services() {
         </motion.div>
       </div>
     </section>
+  );
+}
+
+export default function Services() {
+  return (
+    <Suspense fallback={<ServicesLoading />}>
+      <ServicesContent />
+    </Suspense>
   );
 }

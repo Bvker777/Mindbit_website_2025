@@ -3,12 +3,7 @@
 import { DottedSurface } from "@/components/ui/dotted-surface";
 import { Magnetic } from "@/components/ui/magnetic";
 import Link from "next/link";
-import { motion } from "framer-motion";
-import {
-  useScrollAnimation,
-  STANDARD_VARIANTS,
-  getMotionConfig,
-} from "@/lib/use-scroll-animation";
+import { motion, useScrollAnimation, STANDARD_VARIANTS, getMotionConfig } from "@/lib/animations";
 import { getSafariOptimizedClasses, isSafari } from "@/lib/safari-utils";
 
 export default function CTA() {

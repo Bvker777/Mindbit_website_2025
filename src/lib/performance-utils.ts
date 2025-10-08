@@ -40,7 +40,7 @@ export const shouldDisableHeroMobileAnimations = (): boolean => {
   const nav = navigator as NavigatorWithDeviceMemory;
   const isVeryLowEnd = 
     navigator.hardwareConcurrency <= 1 || // Very low CPU cores
-    (nav.deviceMemory && nav.deviceMemory <= 2); // Very low RAM (if available)
+    (nav.deviceMemory && nav.deviceMemory <= 2) || false; // Very low RAM (if available)
   
   return isVeryLowEnd;
 };

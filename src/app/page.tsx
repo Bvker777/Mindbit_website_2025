@@ -4,7 +4,7 @@ import AboutSection from "@/components/About";
 import FeaturedProjects from "@/components/FeaturedProjects";
 import ServicesSection from "@/components/Services";
 import WhyChooseUs from "@/components/WhyChooseUs";
-import TeamSection from "@/components/TeamSection";
+// TeamSection import removed - component is commented out
 import CTASection from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next"

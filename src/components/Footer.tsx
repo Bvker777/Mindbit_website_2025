@@ -1,17 +1,12 @@
 "use client";
-import React from "react";
-import { motion } from "framer-motion";
+import React, { memo } from "react";
+import { motion } from "@/lib/animations";
 import {
   useScrollAnimation,
   STANDARD_VARIANTS,
   getMotionConfig,
-} from "@/lib/use-scroll-animation";
-import {
-  FacebookIcon,
-  InstagramIcon,
-  LinkedinIcon,
-  YoutubeIcon,
-} from "lucide-react";
+} from "@/lib/animations";
+// Social media icons removed - not currently used
 
 interface FooterLink {
   title: string;
@@ -52,18 +47,18 @@ const footerLinks: FooterSection[] = [
       { title: "Free Consultation", href: "#contact" },
     ],
   },
-  {
-    label: "Connect",
-    links: [
-      { title: "Facebook", href: "#", icon: FacebookIcon },
-      { title: "Instagram", href: "#", icon: InstagramIcon },
-      { title: "Youtube", href: "#", icon: YoutubeIcon },
-      { title: "LinkedIn", href: "#", icon: LinkedinIcon },
-    ],
-  },
+  // {
+  //   label: "Connect",
+  //   links: [
+  //     { title: "Facebook", href: "#", icon: FacebookIcon },
+  //     { title: "Instagram", href: "#", icon: InstagramIcon },
+  //     { title: "Youtube", href: "#", icon: YoutubeIcon },
+  //     { title: "LinkedIn", href: "#", icon: LinkedinIcon },
+  //   ],
+  // },
 ];
 
-export function Footer() {
+export const Footer = memo(function Footer() {
   const { ref, isInView } = useScrollAnimation();
 
   return (
@@ -187,4 +182,4 @@ export function Footer() {
       </motion.div>
     </footer>
   );
-}
+});

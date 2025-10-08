@@ -1,13 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, Variants } from "framer-motion";
-import {
-  useScrollAnimation,
-  getMotionConfig,
-  getAnimationVariants,
-} from "@/lib/use-scroll-animation";
-import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
+import { motion, useScrollAnimation, getMotionConfig, getAnimationVariants, shouldDisableMobileAnimations, type Variants } from "@/lib/animations";
 
 export default function About() {
   const { ref, isInView } = useScrollAnimation();
@@ -60,6 +54,10 @@ export default function About() {
               alt="About MindBit Solutions"
               fill
               className="object-cover"
+              priority
+              placeholder="blur"
+              blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAUEAEAAAAAAAAAAAAAAAAAAAAA/8QAFQEBAQAAAAAAAAAAAAAAAAAAAAX/xAAUEQEAAAAAAAAAAAAAAAAAAAAA/9oADAMBAAIRAxEAPwCdABmX/9k="
+              sizes="(max-width: 768px) 100vw, 50vw"
             />
           </motion.div>
           <motion.div variants={animationVariants.slideRight}>

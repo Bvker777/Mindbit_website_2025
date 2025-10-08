@@ -1,9 +1,8 @@
 "use client";
 
 import { WavePath } from '@/components/ui/wave-path';
-import { motion, useInView, Variants } from "framer-motion";
+import { motion, useInView, shouldDisableMobileAnimations, type Variants } from "@/lib/animations";
 import { useRef } from "react";
-import { shouldDisableMobileAnimations } from "@/lib/performance-utils";
 
 // Individual feature item component with its own viewport detection
 function FeatureItem({ feature, index }: { feature: { title: string; description: string }; index: number }) {

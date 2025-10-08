@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { Menu, X } from "lucide-react";
-import { motion } from "framer-motion";
+import { motion } from "@/lib/animations";
 import { getSafariOptimizedClasses, isSafari } from "@/lib/safari-utils";
 
 export default function Header() {
@@ -97,6 +97,8 @@ export default function Header() {
                 width={120}
                 height={40}
                 className="h-8 w-auto"
+                priority
+                sizes="(max-width: 768px) 120px, 120px"
               />
             </Link>
           </motion.div>
