@@ -8,6 +8,7 @@ import WhyChooseUs from "@/components/WhyChooseUs";
 import CTASection from "@/components/CTA";
 import { Footer } from "@/components/Footer";
 import { Analytics } from "@vercel/analytics/next"
+import { TeamSection } from "@/components";
 
 export default function Home() {
   return (
@@ -19,7 +20,7 @@ export default function Home() {
         <FeaturedProjects />
         <ServicesSection />
         <WhyChooseUs />
-        {/* <TeamSection /> */}
+        <TeamSection />
         <CTASection />
       </main>
       <Footer />
