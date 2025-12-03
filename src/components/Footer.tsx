@@ -136,10 +136,16 @@ export const Footer = memo(function Footer() {
                 />
               </svg>
             </div>
-            <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
+            <div className="text-gray-400 text-md leading-relaxed">
+              <p className="mb-2">
+                {/* Update with your actual address */}
+                Shillong, <br /> Meghalaya, India
+              </p>
+            </div>
+            {/* <p className="text-gray-400 text-sm leading-relaxed max-w-sm">
               Building digital solutions that actually make sense - from AI
               Agents to custom apps that work perfectly for your business.
-            </p>
+            </p> */}
           </motion.div>
 
           <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4 lg:col-span-2 lg:mt-0">
