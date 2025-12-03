@@ -204,7 +204,7 @@ function FeaturedProjectsContent() {
     {
       title: "Baibyl Khasi Bible App",
       description:
-        "Mobile application for bike rental service with integrated payment system and real-time tracking capabilities.",
+        "A comprehensive mobile Bible application in the Khasi language, providing easy access to scripture with features like verse search, bookmarks, highlights, and reading plans. Designed to support the Khasi-speaking Christian community with an intuitive interface and offline reading capabilities.",
       images: [
         "/images/projects/khasiBible.png",
         "/images/projects/khasiBibleHighlights.png",
