@@ -206,30 +206,30 @@ function FeaturedProjectsContent() {
       description:
         "A comprehensive mobile Bible application in the Khasi language, providing easy access to scripture with features like verse search, bookmarks, highlights, and reading plans. Designed to support the Khasi-speaking Christian community with an intuitive interface and offline reading capabilities.",
       images: [
-        "/images/projects/khasiBible.png",
-        "/images/projects/khasiBibleHighlights.png",
+        "/images/projects/khasiBible.webp",
+        "/images/projects/khasiBibleHighlights.webp",
       ], // Multiple images
     },
     {
       title: "Shi Kyntien Mobile Game",
       description:
         "An immersive mobile game teaching the Khasi language through fun challenges and interactive quizzes. Designed to boost cultural pride and language skills among kids with colorful graphics and reward-based progression.",
-      images: ["/images/projects/shikyntien_1.png", "/images/projects/shikyntien_2.png", "/images/projects/shikyntien_3.png"], // Multiple images
+      images: ["/images/projects/shikyntien_1.webp", "/images/projects/shikyntien_2.webp", "/images/projects/shikyntien_3.webp"], // Multiple images
     },
     {
       title: "7 Sisters Cookbook App & Website",
       description:
         "A recipe app celebrating Northeast India's culinary heritage. Includes step-by-step cooking guides, instructional videos, and regional ingredient glossaries—perfect for food lovers and home chefs.",
       images: [
-        "/images/projects/7sistersKitchenWhite.png",
-        "/images/projects/7sistersKitchenLaptop.png",
+        "/images/projects/7sistersKitchenWhite.webp",
+        "/images/projects/7sistersKitchenLaptop.webp",
       ], // Multiple images
     },
     {
       title: "Admission Portal ",
       description:
         "A streamlined web portal for Union Christian College admissions. Simplifies application submissions, status tracking, and document uploads, reducing wait times and administrative overhead.",
-      images: ["/images/projects/uccAdmin.png", "/images/projects/uccHome.png"], // Multiple images
+      images: ["/images/projects/uccAdmin.webp", "/images/projects/uccHome.webp"], // Multiple images
     },
   ];
 

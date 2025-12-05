@@ -148,19 +148,19 @@ function ServicesContent() {
       title: "Custom Websites & Apps + AI Integration",
       description:
         "Clean, responsive websites and mobile apps that bring users closer to your brand. A happy user is a loyal one.",
-      image: "/images/projects/webAppService.png", // Replace with your actual service image
+      image: "/images/projects/webAppService.webp", // Replace with your actual service image
     },
     {
       title: "Interactive Gamified Experiences",
       description:
         "Learning made simple, simply makes learning fun. From quizzes to full-blown mini-games, we keep users hooked (for all the right reasons).",
-      image: "/images/ui/birdOrigami.png", // Replace with your actual service image
+      image: "/images/ui/birdOrigami.webp", // Replace with your actual service image
     },
     {
       title: "UI/UX Design",
       description:
         "Emotional Design principles for interfaces that look stunning and feel intuitive. If it looks good and works well, it feels good and was probably built by us.",
-      image: "/images/services/uiux1.png", // Replace with your actual service image
+      image: "/images/services/uiux1.webp", // Replace with your actual service image
     },
   ];
 

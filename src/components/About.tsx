@@ -50,7 +50,7 @@ export default function About() {
             }}
           >
             <Image
-              src="/images/ui/birdOrigami.png"
+              src="/images/ui/birdOrigami.webp"
               alt="About MindBit Solutions"
               fill
               className="object-cover"

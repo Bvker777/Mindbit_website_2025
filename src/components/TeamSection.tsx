@@ -137,21 +137,21 @@ export default function Team() {
       name: "Lambert Shadap",
       role: "Co-Founder",
       description: "25+ years in IT consultancy across banking, gaming, and consumer tech.",
-      image: "/images/team/Lambert.png",
+      image: "/images/team/Lambert.webp",
       linkedin: "https://www.linkedin.com/in/lambertshadap/"
     },
     {
       name: "Ynaiborlang Nongkynrih",
       role: "Co-Founder",
       description: "7+ years building web and mobile solutions; AI Engineer; Interactive Media Expert ",
-      image: "/images/team/Aibor.png",
+      image: "/images/team/Aibor.webp",
       linkedin: "https://www.linkedin.com/in/aibor-nongkynrih-733802385/"
     },
     {
       name: "Bakerlang L Nonglait",
       role: "Co-Founder",
       description: "5+ years as a creative web developer and design engineer, specializing in user-centered UI/UX and emotional design experiences",
-      image: "/images/team/Baker.png",
+      image: "/images/team/Baker.webp",
       linkedin: "https://www.linkedin.com/in/bakerlang-l-nonglait-88a693196/"
     }
   ];
